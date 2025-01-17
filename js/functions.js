@@ -17,7 +17,6 @@ const isPalindrome = (string) => {
   return true;
 };
 
-// Пример использования:
 isPalindrome('Лёша на полке клопа нашёл ');
 
 
