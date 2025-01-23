@@ -19,7 +19,6 @@ const isPalindrome = (string) => {
 
 isPalindrome('Лёша на полке клопа нашёл ');
 
-
 //Функция для возвращения целого положительного числа
 function extractNumbers(input) {
   const inputString = `${input}`;
@@ -34,5 +33,4 @@ function extractNumbers(input) {
   return result === '' ? NaN : Number(result);
 }
 
-// Примеры использования:
 extractNumbers('2023 год');
