@@ -1,4 +1,4 @@
-//Функция для проверки длины строки//
+/*//Функция для проверки длины строки//
 function checkStringMaxLength(string, maxLength) {
   return string.length <= maxLength;
 }
@@ -33,4 +33,4 @@ function extractNumbers(input) {
   return result === '' ? NaN : Number(result);
 }
 
-extractNumbers('2023 год');
+extractNumbers('2023 год');*/
