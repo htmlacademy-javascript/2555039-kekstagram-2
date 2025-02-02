@@ -18,11 +18,11 @@ const COMMENTS_SET = {
 const { DESCRIPTIONS, COMMENTS, NAMES } = getDataPosts();
 
 const comment = () => {
-  const avatarUrl = `img/avatar-${getRandomInteger(1, 6)}.svg`;
+  const avatarUrl = `img/avatar-${getRandomInteger(AVATARS_SET.MIN, AVATARS_SET.MAX)}.svg`;
   const randomCommentIndex = getRandomInteger(0, COMMENTS.length - 1);
   const randomNameIndex = getRandomInteger(0, NAMES.length - 1);
   return {
-    id: commentId,
+    id: generateRandomCommentId(),
     avatar: avatarUrl,
     message: COMMENTS[randomCommentIndex],
     name: NAMES[randomNameIndex],
@@ -33,8 +33,8 @@ const createRandomPost = () => {
   const postId = generateRandomPostId();
   const photoId = generateRandomPhotoId();
   const photoUrl = `photos/${photoId}.jpg`;
-  const likes = getRandomInteger(15, 200);
-  const commentsNumber = getRandomInteger(0, 30);
+  const likes = getRandomInteger(LIKES_SET.MIN, LIKES_SET.MAX);
+  const commentsNumber = getRandomInteger(COMMENTS_SET.MIN, COMMENTS_SET.MAX);
   const commentsArray = Array.from({ length: commentsNumber }, comment);
 
   return {
@@ -46,7 +46,11 @@ const createRandomPost = () => {
   };
 };
 
-const posts = Array.from({ length: postsArrayLength }, createRandomPost);
+const posts = Array.from({ length: POSTS_ARRAY_LENGTH }, createRandomPost);
 export {
   posts
+};
+
+export {
+  createRandomPost
 };

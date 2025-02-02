@@ -1,3 +1,4 @@
-import { posts } from './create-posts-array.js';
+//import { posts } from './create-posts-array.js';
 
-console.log(posts);
+//console.log(posts);
+import ('./create-miniatures.js');
