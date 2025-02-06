@@ -5,19 +5,19 @@ const renderMiniatures = (data) => {
   const picturesListFragment = document.createDocumentFragment();
 
   data.forEach ((picture) => {
-  const newPostElement = picturesItemTemplate.cloneNode(true);
-  const pictureImgElement = newPostElement.querySelector('.picture__img');
+    const newPostElement = picturesItemTemplate.cloneNode(true);
+    const pictureImgElement = newPostElement.querySelector('.picture__img');
 
-  pictureImgElement.src = picture.url;
-  pictureImgElement.alt = picture.description;
+    pictureImgElement.src = picture.url;
+    pictureImgElement.alt = picture.description;
 
-  const pictureInfoElement = newPostElement.querySelector('.picture__info');
-  pictureInfoElement.querySelector('.picture__likes').textContent = picture.likes;
-  pictureInfoElement.querySelector('.picture__comments').textContent = picture.comments.length;
-  picturesListFragment.append(newPostElement);
-});
-picturesList.append(picturesListFragment);
-}
+    const pictureInfoElement = newPostElement.querySelector('.picture__info');
+    pictureInfoElement.querySelector('.picture__likes').textContent = picture.likes;
+    pictureInfoElement.querySelector('.picture__comments').textContent = picture.comments.length;
+    picturesListFragment.append(newPostElement);
+  });
+  picturesList.append(picturesListFragment);
+};
 
 export { renderMiniatures };
 
