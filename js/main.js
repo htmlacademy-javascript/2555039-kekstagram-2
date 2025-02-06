@@ -1,3 +1,5 @@
 import { posts } from './create-posts-array.js';
+import { renderMiniatures } from './create-miniatures.js';
 
-console.log(posts);
+const createdArray = posts;
+renderMiniatures(createdArray);
