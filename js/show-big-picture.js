@@ -15,13 +15,10 @@ const COMMENTS_PER_PICTURE = 5;
 let loadedComments = 0;
 let allComments = [];
 
-const loadInitialComments = () => {
-  const visibleComments = allComments.slice(0, COMMENTS_PER_PICTURE);
-  loadedComments = visibleComments.length;
-
-  socialCommentsList.innerHTML = ''; // Очищаем старые комментарии
-
-  visibleComments.forEach((commentData) => {
+const loadComments = () => {
+  const nextComments = allComments.slice(loadedComments, loadedComments + COMMENTS_PER_PICTURE);
+  loadedComments += nextComments.length;
+  nextComments.forEach((commentData) => {
     const commentElement = document.createElement('li');
     commentElement.classList.add('social__comment');
     commentElement.innerHTML = `
@@ -33,7 +30,13 @@ const loadInitialComments = () => {
 
   // Отображаем количество загруженных комментариев
   socialCommentShownCount.textContent = loadedComments;
+
+  if(loadedComments >= allComments.length){
+    commentsLoader.classList.add('hidden');
+  }
 };
+
+
 
 const closeBigPicture = () => {
   bigPictureElement.classList.add('hidden');
@@ -58,9 +61,17 @@ const showBigPicture = (picture) => {
   loadedComments = 0;
   allComments = picture.comments.slice();
 
-  loadInitialComments();
+  socialCommentsList.innerHTML = '';
+  loadComments();
 
-  commentsLoader.classList.remove('hidden');
+  if (allComments.length > loadedComments) {
+    commentsLoader.classList.remove('hidden');
+    commentsLoader.addEventListener('click', loadComments);
+  } else {
+    commentsLoader.classList.add('hidden');
+  }
+
+  commentCount.classList.remove('hidden');
   bigPictureElement.classList.remove('hidden');
   document.body.classList.add('modal-open');
 
