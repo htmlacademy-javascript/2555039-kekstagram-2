@@ -13,7 +13,7 @@ const POSTS_ARRAY_LENGTH = 25;
 
 const AVATARS_SET = { MIN: 1, MAX: 6 };
 const LIKES_SET = { MIN: 15, MAX: 200 };
-const COMMENTS_SET = { MIN: 0, MAX: 30 };
+const COMMENTS_SET = { MIN: 0, MAX: 30};
 
 const { DESCRIPTIONS, COMMENTS, NAMES } = getDataPosts();
 
@@ -36,7 +36,6 @@ const createRandomPost = () => {
   const likes = getRandomInteger(LIKES_SET.MIN, LIKES_SET.MAX);
   const commentsNumber = getRandomInteger(COMMENTS_SET.MIN, COMMENTS_SET.MAX);
   const commentsArray = Array.from({ length: commentsNumber }, comment);
-
   return {
     id: postId,
     url: photoUrl,
@@ -52,5 +51,5 @@ export {
 };
 
 export {
-  createRandomPost
+  createRandomPost, comment
 };
