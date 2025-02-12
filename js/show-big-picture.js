@@ -87,6 +87,8 @@ const showBigPicture = (picture) => {
   addedDataBigPicture(picture);
   resetComments(picture);
   loadComments();
+  commentsLoader.removeEventListener('click', loadComments);
+
   if (allComments.length > loadedComments) {
     commentsLoader.classList.remove('hidden');
     commentsLoader.addEventListener('click', loadComments);
