@@ -50,14 +50,6 @@ const loadComments = () => {
   }
 };
 
-
-
-const closeBigPicture = () => {
-  bigPictureElement.classList.add('hidden');
-  document.body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onDocumentKeydown);
-};
-
 const onDocumentKeydown = (evt) => {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
@@ -65,23 +57,29 @@ const onDocumentKeydown = (evt) => {
   }
 };
 
+const closeBigPicture = () => {
+  bigPictureElement.classList.add('hidden');
+  document.body.classList.remove('modal-open');
+  document.removeEventListener('keydown', onDocumentKeydown);
+};
+
 const registerEvents = () => {
   closeButton.addEventListener('click', closeBigPicture, { once: true });
   document.addEventListener('keydown', onDocumentKeydown, { once: true });
-}
+};
 
 const addedDataBigPicture = (picture) => {
-    bigPictureImg.src = picture.url;
+  bigPictureImg.src = picture.url;
   likesCount.textContent = picture.likes;
   socialCaption.textContent = picture.description;
   socialCommentTotalCount.textContent = picture.comments.length;
-}
+};
 
 const resetComments = (picture) => {
   loadedComments = 0;
   allComments = picture.comments.slice();
   socialCommentsList.innerHTML = '';
-}
+};
 
 const showBigPicture = (picture) => {
   addedDataBigPicture(picture);
