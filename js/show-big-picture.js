@@ -18,7 +18,6 @@ let allComments = [];
 const loadInitialComments = () => {
   const visibleComments = allComments.slice(0, COMMENTS_PER_PICTURE);
   loadedComments = visibleComments.length;
-
   socialCommentsList.innerHTML = ''; // Очищаем старые комментарии
 
   visibleComments.forEach((commentData) => {
