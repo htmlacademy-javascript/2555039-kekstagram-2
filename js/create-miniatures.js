@@ -1,4 +1,4 @@
-import { showBigPicture } from "./show-big-picture";
+import { showBigPicture } from './show-big-picture';
 
 const renderMiniatures = (data) => {
   const picturesList = document.querySelector('.pictures');
@@ -24,7 +24,7 @@ const renderMiniatures = (data) => {
     });
   });
   picturesList.append(picturesListFragment);
-  };
+};
 
 
 export { renderMiniatures };
