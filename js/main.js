@@ -4,4 +4,4 @@ import { showBigPicture } from './show-big-picture.js';
 
 const createdArray = posts;
 renderMiniatures(createdArray);
-showBigPicture(createdArray[0]);
+showBigPicture(data);
