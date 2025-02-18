@@ -7,26 +7,6 @@ const overlayWrapper = pictureUpload.querySelector('.img-upload__overlay');
 const picturePreview = pictureUpload.querySelector('.img-upload__preview img');
 const resetButton = pictureUpload.querySelector('.img-upload__cancel');
 
-pictureUploadInput.addEventListener('change', (evt) => {
-  const file = evt.target.files[0];
-
-  if (file) {
-    const reader = new FileReader();
-
-    reader.onload = () => {
-      overlayWrapper.classList.remove('hidden');
-      document.body.classList.add('modal-open');
-
-      picturePreview.src = reader.result;
-      picturePreview.style.display = 'block'; // Показываем изображение
-
-      document.addEventListener('keydown', onDocumentKeydown);
-    };
-
-    reader.readAsDataURL(file);
-  }
-});
-
 function closeForm() {
   overlayWrapper.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -54,4 +34,26 @@ pictureUploadInput.addEventListener('click', () => {
   pictureUploadInput.value = '';
 });
 
-export { pictureUploadInput, overlayWrapper };
+const initPictureUpload = () => {
+  pictureUploadInput.addEventListener('change', (evt) => {
+    const file = evt.target.files[0];
+
+    if (file) {
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        overlayWrapper.classList.remove('hidden');
+        document.body.classList.add('modal-open');
+
+        picturePreview.src = reader.result;
+        picturePreview.style.display = 'block'; // Показываем изображение
+
+        document.addEventListener('keydown', onDocumentKeydown);
+      };
+
+      reader.readAsDataURL(file);
+    }
+  });
+};
+
+export { initPictureUpload, overlayWrapper };

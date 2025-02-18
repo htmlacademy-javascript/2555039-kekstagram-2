@@ -1,8 +1,15 @@
+import { sendFormData } from "./form-handler.js";
+
 const form = document.querySelector('.img-upload__form');
 const fileInput = document.querySelector('#upload-file');
-const submitButton = document.querySelector('#upload-submit');
 const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
+const closeButton = document.querySelector('#upload-cancel');
+
+const validHashtagLength = 5;
+const validCommentsLength = 140;
+let errorMessage = '';
+const error = () => errorMessage;
 
 const pristine = new window.Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -10,105 +17,61 @@ const pristine = new window.Pristine(form, {
   errorTextClass: 'img-upload__error'
 });
 
+// Валидация хэштегов
 const validateHashtags = (value) => {
+  errorMessage = '';
   if (!value.trim()) return true;
+
   const hashtags = value.trim().toLowerCase().split(/\s+/);
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
+  const uniqueHashtags = new Set(hashtags);
 
-  if (hashtags.length > 5) return false;
-  return hashtags.every(tag => hashtagRegex.test(tag));
+  // Проверка количества хэштегов
+  if (uniqueHashtags.size > validHashtagLength) {
+    errorMessage = 'Нельзя вводить больше 5 хэштегов!';
+    return false;
+  }
+
+  // Проверка на повторяющиеся хэштеги
+  if (uniqueHashtags.size !== hashtags.length) {
+    errorMessage = 'Хэштеги не могут повторяться!';
+    return false;
+  }
+
+  // Проверка каждого хэштега по регулярному выражению
+  for (const tag of hashtags) {
+    if (!hashtagRegex.test(tag)) {
+      errorMessage = `Некорректный хэштег: ${tag}`;
+      return false;
+    }
+  }
+  return true;
 };
 
-pristine.addValidator(hashtagInput, validateHashtags, 'Некорректные хэштеги!');
+pristine.addValidator(hashtagInput, validateHashtags, error);
 
-const validateComment = (value) => value.length <= 140;
+// Валидация комментария
+const validateComment = (value) => value.length <= validCommentsLength;
 pristine.addValidator(commentInput, validateComment, 'Комментарий не должен превышать 140 символов');
 
-// Перехват отправки формы
-form.addEventListener('submit', async (evt) => {
-  evt.preventDefault();
+const closeUploadForm = () => {
+  form.reset();
+  pristine.reset();
+  fileInput.value = '';
+};
 
+// Закрытие формы по кнопке "крестик"
+closeButton.addEventListener('click', () => {
+  closeUploadForm();
+});
+
+const initUploadForm = () => {
+  form.addEventListener('submit', async (evt) => {
+  evt.preventDefault();
   if (pristine.validate()) {
     await sendFormData(new FormData(form));
   }
 });
-
-const sendFormData = async (formData) => {
-  try {
-    submitButton.disabled = true; // Блокируем кнопку на время отправки
-
-    const response = await fetch('https://31.javascript.htmlacademy.pro/kekstagram', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('Ошибка отправки данных');
-    }
-
-    showSuccessMessage();
-    form.reset();
-  } catch (error) {
-    showErrorMessage();
-  } finally {
-    submitButton.disabled = false;
-  }
 };
 
-// Функции показа сообщений
-const showSuccessMessage = () => {
-  const successTemplate = document.querySelector('#success').content.cloneNode(true);
-  document.body.appendChild(successTemplate);
-
-  // Обработчик закрытия сообщения
-  const successMessage = document.querySelector('.success');
-  successMessage.querySelector('.success__button').addEventListener('click', () => {
-    successMessage.remove();
-  });
-
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      successMessage.remove();
-    }
-  });
-
-  // Закрытие по клику вне сообщения
-  successMessage.addEventListener('click', (evt) => {
-    if (evt.target === successMessage) {
-      successMessage.remove();
-    }
-  });
-};
-
-const showErrorMessage = () => {
-  const errorTemplate = document.querySelector('#error').content.cloneNode(true);
-  document.body.appendChild(errorTemplate);
-
-  // Обработчик закрытия сообщения
-  const errorMessage = document.querySelector('.error');
-  errorMessage.querySelector('.error__button').addEventListener('click', () => {
-    errorMessage.remove();
-  });
-
-  // Закрытие по Esc
-  document.addEventListener('keydown', (evt) => {
-    if (evt.key === 'Escape') {
-      errorMessage.remove();
-    }
-  });
-
-  // Закрытие по клику вне сообщения
-  errorMessage.addEventListener('click', (evt) => {
-    if (evt.target === errorMessage) {
-      errorMessage.remove();
-    }
-  });
-};
-
-// Закрытие формы и сброс полей
-const closeButton = document.querySelector('#upload-cancel');
-closeButton.addEventListener('click', () => {
-  form.reset();
-  pristine.reset();
-  fileInput.value = '';
-});
+export { closeUploadForm, form, initUploadForm };
