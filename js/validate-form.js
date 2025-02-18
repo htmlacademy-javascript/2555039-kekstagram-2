@@ -1,4 +1,4 @@
-import { sendFormData } from "./form-handler.js";
+import { sendFormData } from './form-handler.js';
 
 const form = document.querySelector('.img-upload__form');
 const fileInput = document.querySelector('#upload-file');
@@ -20,7 +20,9 @@ const pristine = new window.Pristine(form, {
 // Валидация хэштегов
 const validateHashtags = (value) => {
   errorMessage = '';
-  if (!value.trim()) return true;
+  if (!value.trim()) {
+    return true
+  };
 
   const hashtags = value.trim().toLowerCase().split(/\s+/);
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -66,12 +68,12 @@ closeButton.addEventListener('click', () => {
 });
 
 const initUploadForm = () => {
-  form.addEventListener('submit', async (evt) => {
-  evt.preventDefault();
-  if (pristine.validate()) {
+    form.addEventListener('submit', async (evt) => {
+    evt.preventDefault();
+    if (pristine.validate()) {
     await sendFormData(new FormData(form));
-  }
-});
+    }
+  });
 };
 
 export { closeUploadForm, form, initUploadForm };

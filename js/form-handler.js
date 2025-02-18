@@ -1,28 +1,7 @@
-import { closeUploadForm, form } from "./validate-form.js";
-import { isEscapeKey } from "./utils.js";
+import { closeUploadForm } from './validate-form.js';
+import { isEscapeKey } from './utils.js';
 
 const submitButton = document.querySelector('#upload-submit');
-const sendFormData = async (formData) => {
-  try {
-    submitButton.disabled = true; // Блокируем кнопку на время отправки
-
-    const response = await fetch('https://31.javascript.htmlacademy.pro/kekstagram', {
-      method: 'POST',
-      body: formData,
-    });
-
-    if (!response.ok) {
-      throw new Error('Ошибка отправки данных');
-    }
-
-    showSuccessMessage();
-    closeUploadForm(); // Закрываем форму после успешной отправки
-  } catch (error) {
-    showErrorMessage();
-  } finally {
-    submitButton.disabled = false;
-  }
-};
 
 // Функция показа успешного сообщения
 const showSuccessMessage = () => {
@@ -67,6 +46,28 @@ const showErrorMessage = () => {
       errorMessage.remove();
     }
   });
+};
+
+const sendFormData = async (formData) => {
+  try {
+    submitButton.disabled = true; // Блокируем кнопку на время отправки
+
+    const response = await fetch('https://31.javascript.htmlacademy.pro/kekstagram', {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error('Ошибка отправки данных');
+    }
+
+    showSuccessMessage();
+    closeUploadForm(); // Закрываем форму после успешной отправки
+  } catch (error) {
+    showErrorMessage();
+  } finally {
+    submitButton.disabled = false;
+  }
 };
 
 // Отправка данных формы

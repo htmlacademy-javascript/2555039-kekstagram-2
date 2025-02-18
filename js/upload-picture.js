@@ -1,4 +1,4 @@
-import { isEscapeKey } from "./utils";
+import { isEscapeKey } from './utils';
 
 const pictureUpload = document.querySelector('.img-upload');
 const pictureUploadInput = pictureUpload.querySelector('.img-upload__input');
@@ -18,7 +18,7 @@ function closeForm() {
   pictureUploadInput.value = '';
 
   document.removeEventListener('keydown', onDocumentKeydown);
-};
+}
 
 resetButton.addEventListener('click', closeForm);
 
@@ -27,7 +27,7 @@ function onDocumentKeydown(evt) {
     evt.preventDefault();
     closeForm();
   }
-};
+}
 
 // Для корректного сброса поля ввода файла, даже если загружен тот же файл
 pictureUploadInput.addEventListener('click', () => {
