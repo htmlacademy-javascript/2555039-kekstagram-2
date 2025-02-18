@@ -6,8 +6,8 @@ const hashtagInput = form.querySelector('.text__hashtags');
 const commentInput = form.querySelector('.text__description');
 const closeButton = document.querySelector('#upload-cancel');
 
-const validHashtagLength = 5;
-const validCommentsLength = 140;
+const VALID_HASHTAGS_LENGTH = 5;
+const VALID_COMMENT_LENGTH = 140;
 let errorMessage = '';
 const error = () => errorMessage;
 
@@ -27,7 +27,7 @@ const validateHashtags = (value) => {
   const uniqueHashtags = new Set(hashtags);
 
   // Проверка количества хэштегов
-  if (uniqueHashtags.size > validHashtagLength) {
+  if (uniqueHashtags.size > VALID_HASHTAGS_LENGTH) {
     errorMessage = 'Нельзя вводить больше 5 хэштегов!';
     return false;
   }
@@ -51,7 +51,7 @@ const validateHashtags = (value) => {
 pristine.addValidator(hashtagInput, validateHashtags, error);
 
 // Валидация комментария
-const validateComment = (value) => value.length <= validCommentsLength;
+const validateComment = (value) => value.length <= VALID_COMMENT_LENGTH;
 pristine.addValidator(commentInput, validateComment, 'Комментарий не должен превышать 140 символов');
 
 const closeUploadForm = () => {
