@@ -21,8 +21,8 @@ const pristine = new window.Pristine(form, {
 const validateHashtags = (value) => {
   errorMessage = '';
   if (!value.trim()) {
-    return true
-  };
+    return true;
+  }
 
   const hashtags = value.trim().toLowerCase().split(/\s+/);
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
@@ -68,10 +68,10 @@ closeButton.addEventListener('click', () => {
 });
 
 const initUploadForm = () => {
-    form.addEventListener('submit', async (evt) => {
+  form.addEventListener('submit', async (evt) => {
     evt.preventDefault();
     if (pristine.validate()) {
-    await sendFormData(new FormData(form));
+      await sendFormData(new FormData(form));
     }
   });
 };
