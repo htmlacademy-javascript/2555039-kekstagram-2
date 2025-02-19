@@ -1,7 +1,10 @@
 import { posts } from './create-posts-array.js';
-import { renderMiniatures } from './create-miniatures.js';
-import { showBigPicture } from './show-big-picture.js';
+import { renderMiniatures } from './render-miniatures.js';
+import { initUploadForm } from './validate-form.js';
+import { initPictureUpload } from './upload-picture.js';
 
 const createdArray = posts;
 renderMiniatures(createdArray);
-showBigPicture(data);
+initUploadForm();
+initPictureUpload();
+
