@@ -17,7 +17,6 @@ const pristine = new window.Pristine(form, {
   errorTextClass: 'img-upload__error'
 });
 
-// Валидация хэштегов
 const validateHashtags = (value) => {
   errorMessage = '';
   if (!value.trim()) {
