@@ -46,8 +46,8 @@ const updateSliderOptions = (effect) => {
 // Смена эффекта
 const onEffectChange = (evt) => {
   if (!evt.target.classList.contains('effects__radio')){
-    return
-  };
+    return;
+  }
 
   const effectName = evt.target.value;
   currentEffect = EFFECTS[effectName];
