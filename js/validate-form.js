@@ -9,7 +9,7 @@ const closeButton = document.querySelector('#upload-cancel');
 const VALID_HASHTAGS_LENGTH = 5;
 const VALID_COMMENT_LENGTH = 140;
 let errorMessage = '';
-const error = () => errorMessage;
+const getError = () => errorMessage;
 
 const pristine = new window.Pristine(form, {
   classTo: 'img-upload__field-wrapper',
@@ -49,7 +49,7 @@ const validateHashtags = (value) => {
   return true;
 };
 
-pristine.addValidator(hashtagInput, validateHashtags, error);
+pristine.addValidator(hashtagInput, validateHashtags, getError);
 
 // Валидация комментария
 const validateComment = (value) => value.length <= VALID_COMMENT_LENGTH;

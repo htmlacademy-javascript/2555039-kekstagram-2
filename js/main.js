@@ -7,4 +7,3 @@ const createdArray = posts;
 renderMiniatures(createdArray);
 initUploadForm();
 initPictureUpload();
-
