@@ -14,22 +14,22 @@ let currentScaleValue = SCALE_DEFAULT_VALUE;
 const changeScale = () => {
   scaleControllValue.setAttribute('value', `${currentScaleValue}%`);
   imgElementPreview.style.transform = `scale(${currentScaleValue / 100})`;
-}
+};
 
 const lessButtonClick = () => {
   currentScaleValue = Math.max(currentScaleValue - SCALE_STEP, SCALE_MIN_VALUE);
   changeScale();
-}
+};
 
 const biggerButtonClick = () => {
   currentScaleValue = Math.min(currentScaleValue + SCALE_STEP, SCALE_MAX_VALUE);
   changeScale();
-}
+};
 
 const scaleReset = () => {
   currentScaleValue = SCALE_DEFAULT_VALUE;
   changeScale();
-}
+};
 
 const initScale = () => {
   scaleControllSmaller.addEventListener('click', lessButtonClick);
