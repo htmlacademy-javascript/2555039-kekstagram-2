@@ -3,25 +3,8 @@ import { isEscapeKey } from './utils.js';
 
 const submitButton = document.querySelector('#upload-submit');
 
-// Функция закрытия успешного сообщения
-const closeSuccessMessage = () => {
-  const successMessage = document.querySelector('.success');
-  if (successMessage) {
-    successMessage.remove();
-    document.removeEventListener('keydown', onSuccessMessageKeydown);
-    closeUploadForm(); // Закрываем и сбрасываем форму
-  }
-};
-
-// Обработчик нажатия Escape для успешного сообщения
-const onSuccessMessageKeydown = (evt) => {
-  if (isEscapeKey(evt)) {
-    closeSuccessMessage();
-  }
-};
-
 // Функция показа успешного сообщения
-const showSuccessMessage = () => {
+function showSuccessMessage() {
   const successTemplate = document.querySelector('#success').content.cloneNode(true);
   document.body.appendChild(successTemplate);
 
@@ -35,26 +18,27 @@ const showSuccessMessage = () => {
       closeSuccessMessage();
     }
   });
-};
+}
 
-// Функция закрытия сообщения об ошибке
-const closeErrorMessage = () => {
-  const errorMessage = document.querySelector('.error');
-  if (errorMessage) {
-    errorMessage.remove();
-    document.removeEventListener('keydown', onErrorMessageKeydown);
+// Функция закрытия успешного сообщения
+function closeSuccessMessage() {
+  const successMessage = document.querySelector('.success');
+  if (successMessage) {
+    successMessage.remove();
+    document.removeEventListener('keydown', onSuccessMessageKeydown);
+    closeUploadForm(); // Закрываем и сбрасываем форму
   }
-};
+}
 
-// Обработчик нажатия Escape для сообщения об ошибке
-const onErrorMessageKeydown = (evt) => {
+// Обработчик нажатия Escape для успешного сообщения
+function onSuccessMessageKeydown(evt) {
   if (isEscapeKey(evt)) {
-    closeErrorMessage();
+    closeSuccessMessage();
   }
-};
+}
 
 // Функция показа сообщения об ошибке
-const showErrorMessage = () => {
+function showErrorMessage() {
   const errorTemplate = document.querySelector('#error').content.cloneNode(true);
   document.body.appendChild(errorTemplate);
 
@@ -68,9 +52,25 @@ const showErrorMessage = () => {
       closeErrorMessage();
     }
   });
-};
+}
 
-const sendFormData = async (formData) => {
+// Функция закрытия сообщения об ошибке
+function closeErrorMessage() {
+  const errorMessage = document.querySelector('.error');
+  if (errorMessage) {
+    errorMessage.remove();
+    document.removeEventListener('keydown', onErrorMessageKeydown);
+  }
+}
+
+// Обработчик нажатия Escape для сообщения об ошибке
+function onErrorMessageKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    closeErrorMessage();
+  }
+}
+
+async function sendFormData(formData) {
   try {
     submitButton.disabled = true; // Блокируем кнопку на время отправки
 
@@ -84,12 +84,12 @@ const sendFormData = async (formData) => {
     }
 
     showSuccessMessage();
-    closeUploadForm(); //сброс формы после успешной отправки
+    closeUploadForm(); // Сбрасываем форму после успешной отправки
   } catch (error) {
     showErrorMessage();
   } finally {
     submitButton.disabled = false;
   }
-};
+}
 
 export { sendFormData };
