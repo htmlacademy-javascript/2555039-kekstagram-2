@@ -3,26 +3,31 @@ import { isEscapeKey } from './utils.js';
 
 const submitButton = document.querySelector('#upload-submit');
 
+// Функция закрытия успешного сообщения
+const closeSuccessMessage = () => {
+  const successMessage = document.querySelector('.success');
+  if (successMessage) {
+    successMessage.remove();
+    document.removeEventListener('keydown', onSuccessMessageKeydown);
+    closeUploadForm(); // Закрываем и сбрасываем форму
+  }
+};
+
+// Обработчик нажатия Escape для успешного сообщения
+const onSuccessMessageKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    closeSuccessMessage();
+  }
+};
+
 // Функция показа успешного сообщения
 const showSuccessMessage = () => {
   const successTemplate = document.querySelector('#success').content.cloneNode(true);
   document.body.appendChild(successTemplate);
 
   const successMessage = document.querySelector('.success');
-
-  const closeSuccessMessage = () => {
-    document.removeEventListener('keydown', onSuccessMessageKeydown);
-    successMessage.remove();
-    closeUploadForm(); // Закрываем и сбрасываем форму
-  };
-
-  const onSuccessMessageKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      closeSuccessMessage();
-    }
-  };
-
   document.addEventListener('keydown', onSuccessMessageKeydown);
+
   successMessage.querySelector('.success__button').addEventListener('click', closeSuccessMessage);
 
   successMessage.addEventListener('click', (evt) => {
@@ -32,25 +37,30 @@ const showSuccessMessage = () => {
   });
 };
 
+// Функция закрытия сообщения об ошибке
+const closeErrorMessage = () => {
+  const errorMessage = document.querySelector('.error');
+  if (errorMessage) {
+    errorMessage.remove();
+    document.removeEventListener('keydown', onErrorMessageKeydown);
+  }
+};
+
+// Обработчик нажатия Escape для сообщения об ошибке
+const onErrorMessageKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    closeErrorMessage();
+  }
+};
+
 // Функция показа сообщения об ошибке
 const showErrorMessage = () => {
   const errorTemplate = document.querySelector('#error').content.cloneNode(true);
   document.body.appendChild(errorTemplate);
 
   const errorMessage = document.querySelector('.error');
-
-  const closeErrorMessage = () => {
-    document.removeEventListener('keydown', onErrorMessageKeydown); // Удаляем обработчик перед удалением
-    errorMessage.remove();
-  };
-
-  const onErrorMessageKeydown = (evt) => {
-    if (isEscapeKey(evt)) {
-      closeErrorMessage();
-    }
-  };
-
   document.addEventListener('keydown', onErrorMessageKeydown);
+
   errorMessage.querySelector('.error__button').addEventListener('click', closeErrorMessage);
 
   errorMessage.addEventListener('click', (evt) => {
@@ -60,7 +70,6 @@ const showErrorMessage = () => {
   });
 };
 
-// Функция отправки данных
 const sendFormData = async (formData) => {
   try {
     submitButton.disabled = true; // Блокируем кнопку на время отправки
@@ -75,7 +84,7 @@ const sendFormData = async (formData) => {
     }
 
     showSuccessMessage();
-    closeUploadForm(); // сброс формы после успешной отправки
+    closeUploadForm(); //сброс формы после успешной отправки
   } catch (error) {
     showErrorMessage();
   } finally {
@@ -83,5 +92,4 @@ const sendFormData = async (formData) => {
   }
 };
 
-// Отправка данных формы
 export { sendFormData };
