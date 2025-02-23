@@ -11,17 +11,19 @@ const showSuccessMessage = () => {
   const successMessage = document.querySelector('.success');
 
   const closeSuccessMessage = () => {
+    document.removeEventListener('keydown', onSuccessMessageKeydown);
     successMessage.remove();
-    closeUploadForm(); // Закрываем форму
+    closeUploadForm(); // Закрываем и сбрасываем форму
   };
 
-  successMessage.querySelector('.success__button').addEventListener('click', closeSuccessMessage);
-
-  document.addEventListener('keydown', (evt) => {
+  const onSuccessMessageKeydown = (evt) => {
     if (isEscapeKey(evt)) {
       closeSuccessMessage();
     }
-  });
+  };
+
+  document.addEventListener('keydown', onSuccessMessageKeydown);
+  successMessage.querySelector('.success__button').addEventListener('click', closeSuccessMessage);
 
   successMessage.addEventListener('click', (evt) => {
     if (evt.target === successMessage) {
@@ -37,17 +39,28 @@ const showErrorMessage = () => {
 
   const errorMessage = document.querySelector('.error');
 
-  errorMessage.querySelector('.error__button').addEventListener('click', () => {
+  const closeErrorMessage = () => {
+    document.removeEventListener('keydown', onErrorMessageKeydown); // Удаляем обработчик перед удалением
     errorMessage.remove();
-  });
+  };
+
+  const onErrorMessageKeydown = (evt) => {
+    if (isEscapeKey(evt)) {
+      closeErrorMessage();
+    }
+  };
+
+  document.addEventListener('keydown', onErrorMessageKeydown);
+  errorMessage.querySelector('.error__button').addEventListener('click', closeErrorMessage);
 
   errorMessage.addEventListener('click', (evt) => {
     if (evt.target === errorMessage) {
-      errorMessage.remove();
+      closeErrorMessage();
     }
   });
 };
 
+// Функция отправки данных
 const sendFormData = async (formData) => {
   try {
     submitButton.disabled = true; // Блокируем кнопку на время отправки
@@ -62,7 +75,7 @@ const sendFormData = async (formData) => {
     }
 
     showSuccessMessage();
-    closeUploadForm(); // Закрываем форму после успешной отправки
+    closeUploadForm(); // сброс формы после успешной отправки
   } catch (error) {
     showErrorMessage();
   } finally {
