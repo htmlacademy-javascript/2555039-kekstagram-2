@@ -6,18 +6,19 @@ const getRandomInteger = (a, b) => {
 };
 
 const getRandomIdFromRangeGenerator = (min, max) => {
-  const previousValues = [];
+  const previousValues = new Set();
 
   return function () {
-    let currentValue = getRandomInteger(min, max);
-    if (previousValues.length >= (max - min + 1)) {
-      console.error(`Перебраны все числа из диапазона от ${min} до ${max}`);
-      return null;
+    if (previousValues.size >= (max - min + 1)) {
+      return `Все числа из диапазона ${min}-${max} уже использованы`;
     }
-    while (previousValues.includes(currentValue)) {
+
+    let currentValue = getRandomInteger(min, max);
+    while (previousValues.has(currentValue)) {
       currentValue = getRandomInteger(min, max);
     }
-    previousValues.push(currentValue);
+
+    previousValues.add(currentValue);
     return currentValue;
   };
 };

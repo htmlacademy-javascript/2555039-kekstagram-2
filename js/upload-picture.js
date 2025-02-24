@@ -1,4 +1,6 @@
 import { isEscapeKey } from './utils';
+import { initScale, scaleReset } from './scale-setting';
+import { resetEffects, initEffects } from './effetcs-setting.js';
 
 const pictureUpload = document.querySelector('.img-upload');
 const pictureUploadInput = pictureUpload.querySelector('.img-upload__input');
@@ -16,7 +18,8 @@ function closeForm() {
   picturePreview.style.display = 'none';
   picturePreview.src = '';
   pictureUploadInput.value = '';
-
+  scaleReset();
+  resetEffects();
   document.removeEventListener('keydown', onDocumentKeydown);
 }
 
@@ -47,7 +50,8 @@ const initPictureUpload = () => {
 
         picturePreview.src = reader.result;
         picturePreview.style.display = 'block'; // Показываем изображение
-
+        initScale();
+        initEffects();
         document.addEventListener('keydown', onDocumentKeydown);
       };
 
