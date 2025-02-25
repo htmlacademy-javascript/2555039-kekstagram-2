@@ -1,10 +1,11 @@
 import { EFFECTS } from './posts-data.js';
 
-const imgElement = document.querySelector('.img-upload__preview img');
-const effectsList = document.querySelector('.effects__list');
-const sliderContainer = document.querySelector('.effect-level');
-const sliderElement = sliderContainer.querySelector('.effect-level__slider');
-const effectLevelValue = sliderContainer.querySelector('.effect-level__value');
+const imgOverlayContainer = document.querySelector('.img-upload__overlay');
+const imgElement = imgOverlayContainer.querySelector('.img-upload__preview img');
+const effectsList = imgOverlayContainer.querySelector('.effects__list');
+const sliderContainer = imgOverlayContainer.querySelector('.effect-level');
+const sliderElement = imgOverlayContainer.querySelector('.effect-level__slider');
+const effectLevelValue = imgOverlayContainer.querySelector('.effect-level__value');
 
 const CLASS_HIDDEN = 'hidden';
 let currentEffect = EFFECTS.none;

@@ -1,6 +1,6 @@
 import { isEscapeKey } from './utils';
 import { initScale, scaleReset } from './scale-setting';
-import { resetEffects, initEffects } from './effetcs-setting.js';
+import { resetEffects, initEffects } from './effects-setting.js';
 
 const pictureUpload = document.querySelector('.img-upload');
 const pictureUploadInput = pictureUpload.querySelector('.img-upload__input');
