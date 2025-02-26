@@ -1,3 +1,14 @@
+export const Filters = {
+  DEFAULT: 'filter-default',
+  RANDOM: 'filter-random',
+  DISCUSSED: 'filter-discussed'
+};
+
+export const RANDOM_PHOTO_MAX = 10;
+export const DEBOUNCE_TIME = 500;
+
+export const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif'];
+
 const EFFECTS = {
   none: {
     name: 'none',

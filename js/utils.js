@@ -1,3 +1,5 @@
+import { DEBOUNCE_TIME } from './posts-data.js';
+
 const getRandomInteger = (a, b) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -25,8 +27,20 @@ const getRandomIdFromRangeGenerator = (min, max) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
+const shuffleArray = (array) => array.slice().sort(() => Math.random() - 0.5);
+
+const debounce = (callback, timeoutDelay = DEBOUNCE_TIME) => {
+  let timeoutId;
+  return (...args) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, args), timeoutDelay);
+  };
+};
+
 export {
   getRandomInteger,
   getRandomIdFromRangeGenerator,
-  isEscapeKey
+  isEscapeKey,
+  shuffleArray,
+  debounce
 };
