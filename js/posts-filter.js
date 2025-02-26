@@ -31,7 +31,9 @@ const initPhotoFilter = (photos) => {
 
   filtersFormElement.addEventListener('click', (evt) => {
     const button = evt.target.closest('.img-filters__button');
-    if (!button) return;
+    if (!button) {
+      return;
+    }
 
     filtersButtons.forEach((btn) => btn.classList.remove('img-filters__button--active'));
     button.classList.add('img-filters__button--active');
@@ -44,7 +46,7 @@ const initPhotoFilter = (photos) => {
 };
 
 // Функция обновления миниатюр
-const updatePhotoFeed = (photos) => {
+function updatePhotoFeed(photos) {
   const photoContainer = document.querySelector('.pictures');
 
   // Удаляем старые миниатюры перед рендерингом новых

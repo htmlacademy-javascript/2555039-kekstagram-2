@@ -27,9 +27,7 @@ const getRandomIdFromRangeGenerator = (min, max) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const shuffleArray = (array) => {
-  return array.slice().sort(() => Math.random() - 0.5);
-};
+const shuffleArray = (array) => array.slice().sort(() => Math.random() - 0.5);
 
 const debounce = (callback, timeoutDelay = DEBOUNCE_TIME) => {
   let timeoutId;

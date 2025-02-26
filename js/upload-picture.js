@@ -1,5 +1,5 @@
 import { isEscapeKey } from './utils';
-import { FILE_TYPES } from './posts-data.js'
+import { FILE_TYPES } from './posts-data.js';
 import { initScale, scaleReset } from './scale-setting';
 import { resetEffects, initEffects } from './effects-setting.js';
 
@@ -9,12 +9,23 @@ const pictureUploadForm = pictureUpload.querySelector('.img-upload__form');
 const overlayWrapper = pictureUpload.querySelector('.img-upload__overlay');
 const picturePreview = pictureUpload.querySelector('.img-upload__preview img');
 const resetButton = pictureUpload.querySelector('.img-upload__cancel');
+const errorMessage = document.createElement('div');
+
+errorMessage.classList.add('upload-error-message');
+document.body.appendChild(errorMessage);
+
+function showErrorMessage(message) {
+  errorMessage.textContent = message;
+  errorMessage.style.display = 'block';
+  setTimeout(() => {
+    errorMessage.style.display = 'none';
+  }, 3000);
+}
 
 function closeForm() {
   overlayWrapper.classList.add('hidden');
   document.body.classList.remove('modal-open');
 
-  // Сбрасываем значения всех полей формы
   pictureUploadForm.reset();
   picturePreview.style.display = 'none';
   picturePreview.src = '';
@@ -33,7 +44,6 @@ function onDocumentKeydown(evt) {
   }
 }
 
-// Для корректного сброса поля ввода файла, даже если загружен тот же файл
 pictureUploadInput.addEventListener('click', () => {
   pictureUploadInput.value = '';
 });
@@ -48,7 +58,7 @@ const initPictureUpload = () => {
     const fileExtension = fileName.split('.').pop();
 
     if (!FILE_TYPES.includes(fileExtension)) {
-      alert('Неверный формат файла! Пожалуйста, загрузите изображение (JPG, JPEG, PNG, GIF).');
+      showErrorMessage('Неверный формат файла! Допустимые форматы: JPG, JPEG, PNG, GIF.');
       return;
     }
 
@@ -59,7 +69,7 @@ const initPictureUpload = () => {
       document.body.classList.add('modal-open');
 
       picturePreview.src = reader.result;
-      picturePreview.style.display = 'block'; // Показываем изображение
+      picturePreview.style.display = 'block';
       initScale();
       initEffects();
       document.addEventListener('keydown', onDocumentKeydown);
