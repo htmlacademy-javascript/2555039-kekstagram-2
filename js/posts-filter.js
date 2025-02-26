@@ -54,6 +54,6 @@ function updatePhotoFeed(photos) {
 
   // Отрисовываем новые миниатюры
   renderMiniatures(photos);
-};
+}
 
 export { initPhotoFilter, updatePhotoFeed };

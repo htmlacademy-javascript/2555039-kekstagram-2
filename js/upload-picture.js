@@ -52,7 +52,9 @@ const initPictureUpload = () => {
   pictureUploadInput.addEventListener('change', (evt) => {
     const file = evt.target.files[0];
 
-    if (!file) return;
+    if (!file) {
+      return;
+    }
 
     const fileName = file.name.toLowerCase();
     const fileExtension = fileName.split('.').pop();
