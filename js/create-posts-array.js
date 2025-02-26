@@ -45,10 +45,7 @@ const createRandomPost = () => {
   };
 };
 
-const posts = Array.from({ length: POSTS_ARRAY_LENGTH }, createRandomPost);
-export {
-  posts
-};
+export const posts = Array.from({ length: POSTS_ARRAY_LENGTH }, createRandomPost);
 
 export {
   createRandomPost, comment

@@ -1,4 +1,5 @@
 import { sendFormData } from './form-handler.js';
+import { closeForm } from './upload-picture.js';
 
 const form = document.querySelector('.img-upload__form');
 const fileInput = document.querySelector('#upload-file');
@@ -27,19 +28,16 @@ const validateHashtags = (value) => {
   const hashtagRegex = /^#[a-zа-яё0-9]{1,19}$/i;
   const uniqueHashtags = new Set(hashtags);
 
-  // Проверка количества хэштегов
   if (uniqueHashtags.size > VALID_HASHTAGS_LENGTH) {
     errorMessage = 'Нельзя вводить больше 5 хэштегов!';
     return false;
   }
 
-  // Проверка на повторяющиеся хэштеги
   if (uniqueHashtags.size !== hashtags.length) {
     errorMessage = 'Хэштеги не могут повторяться!';
     return false;
   }
 
-  // Проверка каждого хэштега по регулярному выражению
   for (const tag of hashtags) {
     if (!hashtagRegex.test(tag)) {
       errorMessage = `Некорректный хэштег: ${tag}`;
@@ -51,7 +49,6 @@ const validateHashtags = (value) => {
 
 pristine.addValidator(hashtagInput, validateHashtags, getError);
 
-// Валидация комментария
 const validateComment = (value) => value.length <= VALID_COMMENT_LENGTH;
 pristine.addValidator(commentInput, validateComment, 'Комментарий не должен превышать 140 символов');
 
@@ -59,6 +56,7 @@ const closeUploadForm = () => {
   form.reset();
   pristine.reset();
   fileInput.value = '';
+  closeForm();
 };
 
 // Закрытие формы по кнопке "крестик"

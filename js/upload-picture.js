@@ -1,4 +1,5 @@
 import { isEscapeKey } from './utils';
+import { FILE_TYPES } from './posts-data.js'
 import { initScale, scaleReset } from './scale-setting';
 import { resetEffects, initEffects } from './effects-setting.js';
 
@@ -41,23 +42,31 @@ const initPictureUpload = () => {
   pictureUploadInput.addEventListener('change', (evt) => {
     const file = evt.target.files[0];
 
-    if (file) {
-      const reader = new FileReader();
+    if (!file) return;
 
-      reader.onload = () => {
-        overlayWrapper.classList.remove('hidden');
-        document.body.classList.add('modal-open');
+    const fileName = file.name.toLowerCase();
+    const fileExtension = fileName.split('.').pop();
 
-        picturePreview.src = reader.result;
-        picturePreview.style.display = 'block'; // Показываем изображение
-        initScale();
-        initEffects();
-        document.addEventListener('keydown', onDocumentKeydown);
-      };
-
-      reader.readAsDataURL(file);
+    if (!FILE_TYPES.includes(fileExtension)) {
+      alert('Неверный формат файла! Пожалуйста, загрузите изображение (JPG, JPEG, PNG, GIF).');
+      return;
     }
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      overlayWrapper.classList.remove('hidden');
+      document.body.classList.add('modal-open');
+
+      picturePreview.src = reader.result;
+      picturePreview.style.display = 'block'; // Показываем изображение
+      initScale();
+      initEffects();
+      document.addEventListener('keydown', onDocumentKeydown);
+    };
+
+    reader.readAsDataURL(file);
   });
 };
 
-export { initPictureUpload, overlayWrapper };
+export { initPictureUpload, overlayWrapper, closeForm };
