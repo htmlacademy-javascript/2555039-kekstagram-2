@@ -30,7 +30,6 @@ function closeSuccessMessage() {
   }
 }
 
-// Обработчик нажатия Escape для успешного сообщения
 function onSuccessMessageKeydown(evt) {
   if (isEscapeKey(evt)) {
     closeSuccessMessage();
