@@ -36,7 +36,6 @@ function onSuccessMessageKeydown(evt) {
   }
 }
 
-// Функция показа сообщения об ошибке
 function showErrorMessage() {
   const errorTemplate = document.querySelector('#error').content.cloneNode(true);
   document.body.appendChild(errorTemplate);
