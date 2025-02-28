@@ -62,7 +62,7 @@ const createCommentElement = ({ avatar, name, message }) => {
 
 const loadMoreComments = () => {
   const newComments = allPhotoComments.slice(displayedCommentsCount, displayedCommentsCount + COMMENTS_PER_LOAD);
-  newComments.forEach(comment => {
+  newComments.forEach((comment) => {
     commentsContainer.appendChild(createCommentElement(comment));
   });
 

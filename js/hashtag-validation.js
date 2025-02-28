@@ -31,7 +31,7 @@ const validateHashtagsInput = (input) => {
   return true;
 };
 
-const isValidHashtag = (hashtag, uniqueHashtags) => {
+function isValidHashtag(hashtag, uniqueHashtags) {
   if (hashtag === '#') {
     validationMessage = 'Хештег не может состоять только из одной решётки';
     return false;
@@ -63,7 +63,7 @@ const isValidHashtag = (hashtag, uniqueHashtags) => {
   }
 
   return true;
-};
+}
 
 export { getValidationMessage, validateHashtagsInput };
 

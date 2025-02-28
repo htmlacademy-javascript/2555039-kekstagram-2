@@ -16,18 +16,18 @@ const openModal = (templateId) => {
     document.removeEventListener('click', onOutsideClick);
   };
 
-  const onEscPress = (evt) => {
+  function onEscPress(evt) {
     if (isEscapeKey(evt) && isErrorModalOpen) {
       evt.preventDefault();
       closeModal();
     }
-  };
+  }
 
-  const onOutsideClick = (evt) => {
+  function onOutsideClick(evt) {
     if (!evt.target.closest('.error__inner') && !evt.target.closest('.success__inner')) {
       closeModal();
     }
-  };
+  }
 
   document.addEventListener('keydown', onEscPress);
   document.addEventListener('click', onOutsideClick);
@@ -35,7 +35,7 @@ const openModal = (templateId) => {
   const closeButton = modalContainer.querySelector('.error__button') || modalContainer.querySelector('.success__button');
   if (closeButton) {
     closeButton.addEventListener('click', closeModal);
-  }
+  };
 };
 
 const displayErrorModal = () => {

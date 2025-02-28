@@ -4,7 +4,7 @@ import { initScale, scaleReset } from './scale-setting.js';
 import { resetEffects, initEffects } from './effects-setting.js';
 import { pristine } from './pristine-config.js';
 import { sendFormData } from './api.js';
-import { displayErrorModal, displaySuccessModal, isErrorModalOpen } from './show-alerts.js';
+import { displayErrorModal, displaySuccessModal, isErrorModalOpen } from './alerts.js';
 
 const pageBody = document.querySelector('body');
 const pictureUpload = document.querySelector('.img-upload');
@@ -121,6 +121,3 @@ const initPictureUpload = () => {
 };
 
 export { initPictureUpload };
-
-
-
