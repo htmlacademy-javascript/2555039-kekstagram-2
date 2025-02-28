@@ -3,14 +3,23 @@ import { ALERT_SHOW_TIME } from './posts-data.js';
 
 let isErrorModalOpen = false;
 
-const openModal = (templateId) => {
-  const template = document.querySelector(templateId).content.cloneNode(true);
-  const modalContainer = template.querySelector('section');
-  document.body.append(modalContainer);
+const templates = {
+  error: document.querySelector('#error').content,
+  success: document.querySelector('#success').content,
+  dataError: document.querySelector('#data-error').content
+};
+
+const modalContainer = document.createElement('div');
+document.body.append(modalContainer);
+
+const openModal = (type) => {
+  const template = templates[type].cloneNode(true);
+  const modalElement = template.querySelector('section');
+  modalContainer.append(modalElement);
   isErrorModalOpen = true;
 
   const closeModal = () => {
-    modalContainer.remove();
+    modalElement.remove();
     isErrorModalOpen = false;
     document.removeEventListener('keydown', onEscPress);
     document.removeEventListener('click', onOutsideClick);
@@ -32,20 +41,20 @@ const openModal = (templateId) => {
   document.addEventListener('keydown', onEscPress);
   document.addEventListener('click', onOutsideClick);
 
-  const closeButton = modalContainer.querySelector('.error__button') || modalContainer.querySelector('.success__button');
+  const closeButton = modalElement.querySelector('.error__button') || modalElement.querySelector('.success__button');
   if (closeButton) {
     closeButton.addEventListener('click', closeModal);
   }
 };
 
 const displayErrorModal = () => {
-  openModal('#error');
+  openModal('error');
 };
 
 const showDataLoadError = () => {
-  const template = document.querySelector('#data-error').content.cloneNode(true);
+  const template = templates.dataError.cloneNode(true);
   const container = template.querySelector('.data-error');
-  document.body.append(container);
+  modalContainer.append(container);
 
   setTimeout(() => {
     container.remove();
@@ -53,9 +62,7 @@ const showDataLoadError = () => {
 };
 
 const displaySuccessModal = () => {
-  openModal('#success');
+  openModal('success');
 };
 
-
 export { displayErrorModal, displaySuccessModal, showDataLoadError, isErrorModalOpen };
-

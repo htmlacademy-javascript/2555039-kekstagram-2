@@ -26,7 +26,7 @@ const biggerButtonClick = () => {
   changeScale();
 };
 
-const scaleReset = () => {
+const setScaleReset = () => {
   currentScaleValue = SCALE_DEFAULT_VALUE;
   changeScale();
 };
@@ -37,4 +37,4 @@ const initScale = () => {
   changeScale();
 };
 
-export { initScale, scaleReset };
+export { initScale, setScaleReset };

@@ -1,7 +1,8 @@
 import { openPhotoPreview } from './show-big-picture.js';
 
+const miniaturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
+
 const renderMiniatures = (container, photos) => {
-  const miniaturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
   const fragment = document.createDocumentFragment();
 
   photos.forEach(({ url, description, likes, comments }) => {
@@ -10,9 +11,9 @@ const renderMiniatures = (container, photos) => {
     const miniaturesImage = miniaturesElement.querySelector('.picture__img');
     miniaturesImage.src = url;
     miniaturesImage.alt = description;
-    const miniaturesInfo = miniaturesElement.querySelector('.picture__info');
-    miniaturesInfo.querySelector('.picture__likes').textContent = likes;
-    miniaturesInfo.querySelector('.picture__comments').textContent = comments.length;
+
+    miniaturesElement.querySelector('.picture__likes').textContent = likes;
+    miniaturesElement.querySelector('.picture__comments').textContent = comments.length;
 
     miniaturesElement.addEventListener('click', (evt) => {
       evt.preventDefault();
