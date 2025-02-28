@@ -14,6 +14,8 @@ const photoDescription = photoPreviewElement.querySelector('.social__caption');
 const closePreviewButton = photoPreviewElement.querySelector('#picture-cancel');
 const loadMoreCommentsButton = photoPreviewElement.querySelector('.social__comments-loader');
 
+const commentTemplate = document.querySelector('#data-comment').content.querySelector('.social__comment');
+
 const closePhotoPreview = () => {
   photoPreviewElement.classList.add('hidden');
   document.body.classList.remove('modal-open');
@@ -47,15 +49,11 @@ const populatePhotoData = ({ url, description, likes, comments }) => {
 };
 
 const createCommentElement = ({ avatar, name, message }) => {
-  const commentTemplate = document.querySelector('#data-comment').content.querySelector('.social__comment');
   const newComment = commentTemplate.cloneNode(true);
 
-  const commentAvatar = newComment.querySelector('.social__picture');
-  commentAvatar.src = avatar;
-  commentAvatar.alt = name;
-
-  const commentText = newComment.querySelector('.social__text');
-  commentText.textContent = message;
+  newComment.querySelector('.social__picture').src = avatar;
+  newComment.querySelector('.social__picture').alt = name;
+  newComment.querySelector('.social__text').textContent = message;
 
   return newComment;
 };

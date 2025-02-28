@@ -1,6 +1,6 @@
 import { isEscapeKey } from './utils.js';
 import { submitButtonTexts } from './posts-data.js';
-import { initScale, scaleReset } from './scale-setting.js';
+import { initScale, setScaleReset } from './scale-setting.js';
 import { resetEffects, initEffects } from './effects-setting.js';
 import { pristine } from './pristine-config.js';
 import { sendFormData } from './api.js';
@@ -59,7 +59,7 @@ function closeForm() {
   uploadFormElement.reset();
   pictureUploadInput.value = '';
   resetEffects();
-  scaleReset();
+  setScaleReset();
   overlayWrapper.classList.add('hidden');
   pageBody.classList.remove('modal-open');
   removeEventListeners();
