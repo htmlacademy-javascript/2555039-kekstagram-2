@@ -1,12 +1,37 @@
-import { posts } from './create-posts-array.js';
 import { renderMiniatures } from './render-miniatures.js';
-import { initUploadForm } from './validate-form.js';
 import { initPictureUpload } from './upload-picture.js';
-import { initPhotoFilter, updatePhotoFeed } from './posts-filter.js';
+import { getData } from './api.js';
+import { showDataLoadError } from './show-alerts.js';
+import { initFilters } from './posts-filter.js';
+import { debounce } from './utils.js';
 
-const createdArray = posts;
+const initApp = async () => {
+  initPictureUpload();
 
-renderMiniatures(createdArray);
-initUploadForm();
-initPictureUpload();
-initPhotoFilter(posts, updatePhotoFeed);
+  try {
+    const data = await getData();
+    const container = document.querySelector('.pictures');
+    const uploadForm = container.querySelector('.img-upload');
+
+    const debouncedRender = debounce((filteredPhotos) => {
+      updateContainerWithPhotos(container, uploadForm, filteredPhotos);
+    });
+
+    initFilters(data, debouncedRender);
+    renderMiniatures(container, data);
+
+  } catch (error) {
+    showDataLoadError();
+  }
+};
+
+const updateContainerWithPhotos = (container, uploadForm, filteredPhotos) => {
+  container.innerHTML = '';
+  if (uploadForm) {
+    container.append(uploadForm);
+  }
+  renderMiniatures(container, filteredPhotos);
+};
+
+initApp();
+
