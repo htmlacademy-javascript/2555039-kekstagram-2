@@ -1,31 +1,29 @@
-import { showBigPicture } from './show-big-picture';
+import { openPhotoPreview } from './show-big-picture.js';
 
-const renderMiniatures = (data) => {
-  const picturesList = document.querySelector('.pictures');
-  const picturesItemTemplate = document.querySelector('#picture').content.querySelector('.picture');
+const renderMiniatures = (container, photos) => {
+  const miniaturesTemplate = document.querySelector('#picture').content.querySelector('.picture');
+  const fragment = document.createDocumentFragment();
 
-  const picturesListFragment = document.createDocumentFragment();
+  photos.forEach(({ url, description, likes, comments }) => {
+    const miniaturesElement = miniaturesTemplate.cloneNode(true);
 
-  data.forEach ((picture) => {
-    const newPostElement = picturesItemTemplate.cloneNode(true);
-    const pictureImgElement = newPostElement.querySelector('.picture__img');
+    const miniaturesImage = miniaturesElement.querySelector('.picture__img');
+    miniaturesImage.src = url;
+    miniaturesImage.alt = description;
+    const miniaturesInfo = miniaturesElement.querySelector('.picture__info');
+    miniaturesInfo.querySelector('.picture__likes').textContent = likes;
+    miniaturesInfo.querySelector('.picture__comments').textContent = comments.length;
 
-    pictureImgElement.src = picture.url;
-    pictureImgElement.alt = picture.description;
-
-    const pictureInfoElement = newPostElement.querySelector('.picture__info');
-    pictureInfoElement.querySelector('.picture__likes').textContent = picture.likes;
-    pictureInfoElement.querySelector('.picture__comments').textContent = picture.comments.length;
-    picturesListFragment.append(newPostElement);
-
-    newPostElement.addEventListener('click', (evt) => {
+    miniaturesElement.addEventListener('click', (evt) => {
       evt.preventDefault();
-      showBigPicture(picture);
+      openPhotoPreview({ url, description, likes, comments });
     });
-  });
-  picturesList.append(picturesListFragment);
-};
 
+    fragment.append(miniaturesElement);
+  });
+
+  container.append(fragment);
+};
 
 export { renderMiniatures };
 

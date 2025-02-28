@@ -1,28 +1,30 @@
 import { EFFECTS } from './posts-data.js';
 
-const imgOverlayContainer = document.querySelector('.img-upload__overlay');
-const imgElement = imgOverlayContainer.querySelector('.img-upload__preview img');
-const effectsList = imgOverlayContainer.querySelector('.effects__list');
-const sliderContainer = imgOverlayContainer.querySelector('.effect-level');
-const sliderElement = imgOverlayContainer.querySelector('.effect-level__slider');
-const effectLevelValue = imgOverlayContainer.querySelector('.effect-level__value');
-
 const CLASS_HIDDEN = 'hidden';
-let currentEffect = EFFECTS.none;
 
-// Применение эффекта к изображению
+const imgElement = document.querySelector('.img-upload__preview img');
+const effectsList = document.querySelector('.effects__list');
+const sliderContainer = document.querySelector('.effect-level');
+const sliderElement = sliderContainer.querySelector('.effect-level__slider');
+const effectLevelValue = sliderContainer.querySelector('.effect-level__value');
+
+let currentEffect = EFFECTS.none;
+let sliderInitialized = false;
+
 const setEffect = (value) => {
-  if (currentEffect.name === 'none') {
-    imgElement.style.filter = 'none';
-    return;
-  }
-  imgElement.style.filter = `${currentEffect.style}(${value}${currentEffect.unit})`;
+  imgElement.style.filter = currentEffect.name === 'none' ? 'none' : `${currentEffect.style}(${value}${currentEffect.unit})`;
 };
 
-// Инициализация слайдера
 const initSlider = () => {
+  if (sliderInitialized) {
+    return;
+  }
+
   noUiSlider.create(sliderElement, {
-    range: { min: currentEffect.min, max: currentEffect.max },
+    range: {
+      min: currentEffect.min,
+      max: currentEffect.max
+    },
     start: currentEffect.start,
     step: currentEffect.step,
     connect: 'lower'
@@ -30,43 +32,56 @@ const initSlider = () => {
 
   sliderElement.noUiSlider.on('update', () => {
     const value = sliderElement.noUiSlider.get();
-    effectLevelValue.value = value;
-    setEffect(value);
+    const formattedValue = Number.isInteger(parseFloat(value)) ? parseFloat(value).toString() : parseFloat(value).toFixed(1);
+
+    effectLevelValue.value = formattedValue;
+    setEffect(formattedValue);
   });
+
+  sliderInitialized = true;
 };
 
-// Обновление параметров слайдера
+// Функция для обновления параметров слайдера
 const updateSliderOptions = (effect) => {
-  sliderElement.noUiSlider.updateOptions({
-    range: { min: effect.min, max: effect.max },
-    step: effect.step
-  });
-  sliderElement.noUiSlider.set(effect.start);
-};
-
-// Смена эффекта
-const onEffectChange = (evt) => {
-  if (!evt.target.classList.contains('effects__radio')){
+  if (!sliderInitialized) {
     return;
   }
 
-  const effectName = evt.target.value;
-  currentEffect = EFFECTS[effectName];
+  sliderElement.noUiSlider.updateOptions({
+    range: { min: effect.min, max: effect.max },
+    start: effect.start,
+    step: effect.step
+  });
+};
+
+// Обработчик изменения эффекта
+const onEffectChange = (evt) => {
+  if (!evt.target.classList.contains('effects__radio')) {
+    return;
+  }
+
+  currentEffect = EFFECTS[evt.target.value];
 
   if (currentEffect.name === 'none') {
-    sliderContainer.classList.add(CLASS_HIDDEN);
     imgElement.style.filter = 'none';
     effectLevelValue.value = '';
-    sliderElement.noUiSlider.set(0);
+    sliderContainer.classList.add(CLASS_HIDDEN);
   } else {
     sliderContainer.classList.remove(CLASS_HIDDEN);
     updateSliderOptions(currentEffect);
   }
 };
 
-// Сброс эффектов
+// Функция сброса эффектов
 const resetEffects = () => {
-  setEffect('none'); // Сбрасываем эффект
+  if (sliderInitialized) {
+    sliderElement.noUiSlider.destroy();
+    sliderInitialized = false;
+  }
+
+  effectsList.removeEventListener('change', onEffectChange);
+  currentEffect = EFFECTS.none;
+  imgElement.style.filter = 'none';
   effectLevelValue.value = '';
   sliderContainer.classList.add(CLASS_HIDDEN);
 };

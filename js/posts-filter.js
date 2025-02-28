@@ -1,8 +1,12 @@
-import { Filters, RANDOM_PHOTO_MAX, DEBOUNCE_TIME } from './posts-data.js';
-import { shuffleArray, debounce } from './utils.js';
-import { renderMiniatures } from './render-miniatures.js';
+import { Filters, RANDOM_PHOTO_MAX } from './posts-data.js';
+import { shuffleArray } from './utils.js';
 
-const filterPhotos = (photos, filterType) => {
+const imgFiltersContainer = document.querySelector('.img-filters');
+const filtersFormElement = imgFiltersContainer.querySelector('.img-filters__form');
+const filtersButtons = filtersFormElement.querySelectorAll('.img-filters__button');
+
+// Функция фильтрации фотографий
+const applyFilter = (photos, filterType) => {
   switch (filterType) {
     case Filters.DEFAULT:
       return [...photos];
@@ -18,42 +22,23 @@ const filterPhotos = (photos, filterType) => {
   }
 };
 
-const initPhotoFilter = (photos) => {
-  const filtersContainer = document.querySelector('.img-filters');
-  const filtersFormElement = filtersContainer.querySelector('.img-filters__form');
-  const filtersButtons = filtersFormElement.querySelectorAll('.img-filters__button');
-
-  filtersContainer.classList.remove('img-filters--inactive');
-
-  const debouncedRender = debounce((filteredPhotos) => {
-    updatePhotoFeed(filteredPhotos);
-  }, DEBOUNCE_TIME);
+// Инициализация фильтров
+const initFilters = (photos, renderThumbnails) => {
+  imgFiltersContainer.classList.remove('img-filters--inactive');
 
   filtersFormElement.addEventListener('click', (evt) => {
-    const button = evt.target.closest('.img-filters__button');
-    if (!button) {
+    if (!evt.target.classList.contains('img-filters__button')) {
       return;
     }
 
-    filtersButtons.forEach((btn) => btn.classList.remove('img-filters__button--active'));
-    button.classList.add('img-filters__button--active');
+    filtersButtons.forEach((button) => button.classList.remove('img-filters__button--active'));
+    evt.target.classList.add('img-filters__button--active');
 
-    const filterType = button.id;
-    const filteredPhotos = filterPhotos(photos, filterType);
+    const selectedFilter = evt.target.id;
+    const filtered = applyFilter(photos, selectedFilter);
 
-    debouncedRender(filteredPhotos);
+    renderThumbnails(filtered);
   });
 };
 
-// Функция обновления миниатюр
-function updatePhotoFeed(photos) {
-  const photoContainer = document.querySelector('.pictures');
-
-  // Удаляем старые миниатюры перед рендерингом новых
-  photoContainer.querySelectorAll('.picture').forEach((miniature) => miniature.remove());
-
-  // Отрисовываем новые миниатюры
-  renderMiniatures(photos);
-}
-
-export { initPhotoFilter, updatePhotoFeed };
+export { initFilters };
