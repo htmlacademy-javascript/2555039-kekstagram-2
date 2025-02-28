@@ -6,8 +6,30 @@ export const Filters = {
 
 export const RANDOM_PHOTO_MAX = 10;
 export const DEBOUNCE_TIME = 500;
-
+export const ALERT_SHOW_TIME = 5000;
 export const FILE_TYPES = ['jpg', 'jpeg', 'png', 'gif'];
+
+export const ErrorText = {
+  GET_DATA: 'Не удалось загрузить данные. Попробуйте обновить страницу',
+  SEND_DATA: 'Не удалось отправить форму. Попробуйте ещё раз',
+};
+
+export const submitButtonTexts = {
+  IDLE: 'ОПУБЛИКОВАТЬ',
+  SENDING: 'ПУБЛИКУЮ...'
+};
+
+export const BASE_URL = 'https://31.javascript.htmlacademy.pro/kekstagram';
+
+export const Route = {
+  GET_DATA: '/data',
+  SEND_DATA: '/',
+};
+
+export const Method = {
+  GET: 'GET',
+  POST: 'POST',
+};
 
 const EFFECTS = {
   none: {

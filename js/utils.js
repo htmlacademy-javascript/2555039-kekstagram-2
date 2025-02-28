@@ -15,10 +15,10 @@ const getRandomIdFromRangeGenerator = (min, max) => {
       return `Все числа из диапазона ${min}-${max} уже использованы`;
     }
 
-    let currentValue = getRandomInteger(min, max);
-    while (previousValues.has(currentValue)) {
+    let currentValue;
+    do {
       currentValue = getRandomInteger(min, max);
-    }
+    } while (previousValues.has(currentValue));
 
     previousValues.add(currentValue);
     return currentValue;
@@ -27,13 +27,19 @@ const getRandomIdFromRangeGenerator = (min, max) => {
 
 const isEscapeKey = (evt) => evt.key === 'Escape';
 
-const shuffleArray = (array) => array.slice().sort(() => Math.random() - 0.5);
+const shuffleArray = (arrays) => {
+  for (let i = arrays.length - 1; i > 0; i--) {
+    const randomIndex = Math.floor(Math.random() * (i + 1));
+    [arrays[i], arrays[randomIndex]] = [arrays[randomIndex], arrays[i]];
+  }
+  return arrays;
+};
 
 const debounce = (callback, timeoutDelay = DEBOUNCE_TIME) => {
   let timeoutId;
-  return (...args) => {
+  return (...rest) => {
     clearTimeout(timeoutId);
-    timeoutId = setTimeout(() => callback.apply(this, args), timeoutDelay);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
 };
 
