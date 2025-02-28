@@ -35,12 +35,12 @@ const openModal = (templateId) => {
   const closeButton = modalContainer.querySelector('.error__button') || modalContainer.querySelector('.success__button');
   if (closeButton) {
     closeButton.addEventListener('click', closeModal);
-  };
+  }
 };
 
 const displayErrorModal = () => {
   openModal('#error');
-}
+};
 
 const showDataLoadError = () => {
   const template = document.querySelector('#data-error').content.cloneNode(true);
